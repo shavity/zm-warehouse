@@ -12,18 +12,18 @@ const mockResponse = () => {
   return res;
 };
 
-describe('categories Controller - Unit Tests', () => {
+describe('Categories Controller - Unit Tests', () => {
 
   beforeEach(() => jest.clearAllMocks());
 
   describe('getCategories', () => {
     it('should return all categories', async () => {
-      const fakecategories = [{ id: 1, name: 'Kitchen' }];
-      (categoriesDal.getAllCategories as jest.Mock).mockResolvedValue(fakecategories);
+      const fakeCategories = [{ id: 1, name: 'Kitchen' }];
+      (categoriesDal.getAllCategories as jest.Mock).mockResolvedValue(fakeCategories);
       const req = mockRequest();
       const res = mockResponse();
       await getCategories(req, res);
-      expect(res.json).toHaveBeenCalledWith(fakecategories);
+      expect(res.json).toHaveBeenCalledWith(fakeCategories);
     });
 
     it('should return 500 if database fails', async () => {

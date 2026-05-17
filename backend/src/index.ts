@@ -5,6 +5,8 @@ import path from 'path';
 import '@dal/database';
 import roomsRouter from '@routes/rooms';
 import categoriesRouter from '@routes/categories'
+import rolesRouter from '@routes/roles'
+import orderStatusesRouter from '@routes/order_statuses'
 
 dotenv.config();
 
@@ -16,6 +18,8 @@ app.use('/uploads', express.static(path.join(__dirname, '../../uploads')));
 
 app.use('/rooms', roomsRouter);
 app.use('/categories', categoriesRouter);
+app.use('/roles', rolesRouter);
+app.use('/order-statuses', orderStatusesRouter);
 
 app.get('/health', (req, res) => {
   res.json({ status: 'ok', message: 'ZM Logistics API is running' });
