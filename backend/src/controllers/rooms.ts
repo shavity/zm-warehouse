@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { getAllRooms, upsertRoom } from '../dal/rooms';
+import { getAllRooms, upsertRoom } from '@dal/rooms';
 
 export const getRooms = async (req: Request, res: Response) => {
   try {
@@ -34,7 +34,7 @@ export const addRoom = async (req: Request, res: Response) => {
       res.status(409).json({ error: `Room with id ${id} already exists` });
       return;
     }
-    
+
     res.status(201).json(room);
   } catch (error) {
     res.status(500).json({ error: 'Failed to create room' });
