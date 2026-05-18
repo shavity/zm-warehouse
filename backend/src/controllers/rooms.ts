@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { getAllRooms, upsertRoom } from '@dal/rooms';
+import { isNonEmptyString, isNatural } from '@utils/validatiors';
 
 export const getRooms = async (req: Request, res: Response) => {
   try {
@@ -19,12 +20,12 @@ export const addRoom = async (req: Request, res: Response) => {
       return;
     }
 
-    if (!Number.isInteger(id)) {
+    if (!isNatural(id)) {
       res.status(400).json({ error: 'id must be an integer' });
       return;
     }
 
-    if (typeof name !== 'string' || name.trim() === '') {
+    if (!isNonEmptyString(name)) {
       res.status(400).json({ error: 'name must be a non-empty string' });
       return;
     }

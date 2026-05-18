@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { getAllCategories, upsertCategory } from '@dal/categories';
+import { isNonEmptyString } from '@utils/validatiors';
 
 export const getCategories = async (req: Request, res: Response) => {
   try {
@@ -14,7 +15,7 @@ export const addCategory = async (req: Request, res: Response) => {
   try {
     const { name } = req.body;
 
-    if (!name || typeof name !== 'string' || name.trim() === '') {
+    if (!name || !isNonEmptyString(name)) {
       res.status(400).json({ error: 'name must be a non-empty string' });
       return;
     }
