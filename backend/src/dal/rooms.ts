@@ -19,10 +19,10 @@ export const createRoom = async (id: number, name: string) => {
 };
 
 export const upsertRoom = async (id: number, name: string) => {
-    const result = await db.query(
-        `INSERT INTO rooms (id, name) VALUES ($1, $2)
-     ON CONFLICT (id) DO UPDATE SET id = EXCLUDED.id
-     RETURNING *, (xmax = 0) AS inserted`,
+    const result = await db.query(`
+        INSERT INTO rooms (id, name) VALUES ($1, $2)
+        ON CONFLICT (id) DO UPDATE SET id = EXCLUDED.id
+        RETURNING *, (xmax = 0) AS inserted`,
         [id, name]
     );
     return result.rows[0];

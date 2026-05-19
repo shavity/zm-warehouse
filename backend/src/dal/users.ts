@@ -2,23 +2,21 @@ import db from '@dal/database';
 import { buildSetClause } from '@utils/query_helpers';
 
 export const getAllUsers = async () => {
-    const result = await db.query(`
-    SELECT users.*, roles.name as role_name 
-    FROM users 
-    JOIN roles ON users.role_id = roles.id 
-    ORDER BY users.id
-  `);
+    const result = await db.query(
+        `SELECT users.*, roles.name as role_name 
+        FROM users 
+        JOIN roles ON users.role_id = roles.id 
+        ORDER BY users.id`
+    );
     return result.rows;
 };
 
 export const getUserById = async (id: number) => {
     const result = await db.query(
-        `
-    SELECT users.*, roles.name as role_name 
-    FROM users 
-    JOIN roles ON users.role_id = roles.id 
-    WHERE users.id = $1
-  `,
+        `SELECT users.*, roles.name as role_name 
+        FROM users 
+        JOIN roles ON users.role_id = roles.id 
+        WHERE users.id = $1`,
         [id]
     );
     return result.rows[0];
@@ -30,11 +28,9 @@ export const createUser = async (
     role_id: number
 ) => {
     const result = await db.query(
-        `
-    INSERT INTO users (name, phone_number, role_id) 
-    VALUES ($1, $2, $3) 
-    RETURNING *
-  `,
+        `INSERT INTO users (name, phone_number, role_id) 
+        VALUES ($1, $2, $3) 
+        RETURNING *`,
         [name, phone_number, role_id]
     );
     return result.rows[0];
@@ -47,12 +43,10 @@ export const updateUser = async (
     const setClause = buildSetClause(fields);
 
     const result = await db.query(
-        `
-    UPDATE users 
-    SET ${setClause.setClause}
-    WHERE users.id = $${setClause.values.length + 1}
-    RETURNING *
-  `,
+        `UPDATE users 
+        SET ${setClause.setClause}
+        WHERE users.id = $${setClause.values.length + 1}
+        RETURNING *`,
         [...setClause.values, id]
     );
 
@@ -61,11 +55,9 @@ export const updateUser = async (
 
 export const deleteUser = async (id: number) => {
     const result = await db.query(
-        `
-    DELETE FROM users 
-    WHERE id = $1 
-    RETURNING *
-  `,
+        `DELETE FROM users 
+        WHERE id = $1 
+        RETURNING *`,
         [id]
     );
     return result.rows[0];
