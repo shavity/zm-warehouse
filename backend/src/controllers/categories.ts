@@ -1,6 +1,6 @@
-import { Request, Response } from 'express';
 import { getAllCategories, upsertCategory } from '@dal/categories';
-import { isNonEmptyString } from '@utils/validatiors';
+import { isNonEmptyString } from '@utils/validators';
+import { Request, Response } from 'express';
 
 export const getCategories = async (req: Request, res: Response) => {
   try {

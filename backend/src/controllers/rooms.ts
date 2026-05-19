@@ -1,6 +1,6 @@
-import { Request, Response } from 'express';
 import { getAllRooms, upsertRoom } from '@dal/rooms';
-import { isNonEmptyString, isNatural } from '@utils/validatiors';
+import { isNatural, isNonEmptyString } from '@utils/validators';
+import { Request, Response } from 'express';
 
 export const getRooms = async (req: Request, res: Response) => {
   try {
