@@ -6,7 +6,10 @@ export const getAllRooms = async () => {
 };
 
 export const getRoomById = async (id: number) => {
-    const result = await db.query('SELECT * FROM rooms WHERE id = $1', [id]);
+    const result = await db.query(
+        'SELECT * FROM rooms WHERE id = $1',
+        [id]
+    );
     return result.rows[0];
 };
 

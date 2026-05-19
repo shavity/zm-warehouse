@@ -5,10 +5,19 @@ export const getAllCategories = async () => {
     return result.rows;
 };
 
+export const getCategoryById = async (id: number) => {
+    const result = await db.query(
+        'SELECT * FROM categories WHERE id = $1',
+        [id]
+    );
+    return result.rows[0];
+}
+
 export const getCategoryByName = async (name: string) => {
-    const result = await db.query('SELECT * FROM categories WHERE name = $1', [
-        name,
-    ]);
+    const result = await db.query(
+        'SELECT * FROM categories WHERE name = $1',
+        [name]
+    );
     return result.rows[0];
 };
 
