@@ -4,10 +4,10 @@ import dotenv from 'dotenv';
 import path from 'path';
 import '@dal/database';
 import roomsRouter from '@routes/rooms';
-import categoriesRouter from '@routes/categories'
-import rolesRouter from '@routes/roles'
-import orderStatusesRouter from '@routes/order_statuses'
-import usersRouter from '@routes/users'
+import categoriesRouter from '@routes/categories';
+import rolesRouter from '@routes/roles';
+import orderStatusesRouter from '@routes/order_statuses';
+import usersRouter from '@routes/users';
 
 dotenv.config();
 
@@ -24,7 +24,7 @@ app.use('/order-statuses', orderStatusesRouter);
 app.use('/users', usersRouter);
 
 app.get('/health', (req, res) => {
-  res.json({ status: 'ok', message: 'ZM Logistics API is running' });
+    res.json({ status: 'ok', message: 'ZM Logistics API is running' });
 });
 
 export default app;

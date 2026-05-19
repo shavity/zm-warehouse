@@ -3,11 +3,10 @@ import app from '../../src/index';
 import db from '../../src/dal/database';
 
 describe('Users API - Integration Tests', () => {
-
     beforeEach(async () => {
         await db.query('DELETE FROM users');
         await db.query('DELETE FROM roles');
-        await db.query("INSERT INTO roles (id, name) VALUES (1, 'admin')")
+        await db.query("INSERT INTO roles (id, name) VALUES (1, 'admin')");
     });
 
     afterAll(async () => {
@@ -23,7 +22,9 @@ describe('Users API - Integration Tests', () => {
         });
 
         it('should return all users', async () => {
-            await db.query("INSERT INTO users (name, phone_number, role_id) VALUES ('Yair', '0501234567', 1)");
+            await db.query(
+                "INSERT INTO users (name, phone_number, role_id) VALUES ('Yair', '0501234567', 1)"
+            );
             const res = await request(app).get('/users');
             expect(res.status).toBe(200);
             expect(res.body).toHaveLength(1);
@@ -33,7 +34,9 @@ describe('Users API - Integration Tests', () => {
 
     describe('GET /users/:id', () => {
         it('should return a user by id', async () => {
-            const insert = await db.query("INSERT INTO users (name, phone_number, role_id) VALUES ('Yair', '0501234567', 1) RETURNING *");
+            const insert = await db.query(
+                "INSERT INTO users (name, phone_number, role_id) VALUES ('Yair', '0501234567', 1) RETURNING *"
+            );
             const id = insert.rows[0].id;
             const res = await request(app).get(`/users/${id}`);
             expect(res.status).toBe(200);
@@ -78,21 +81,31 @@ describe('Users API - Integration Tests', () => {
         it('should return 400 if role_id is not a positive integer', async () => {
             const res = await request(app)
                 .post('/users')
-                .send({ name: 'Yair', phone_number: '0501234567', role_id: -1 });
+                .send({
+                    name: 'Yair',
+                    phone_number: '0501234567',
+                    role_id: -1,
+                });
             expect(res.status).toBe(400);
         });
 
         it('should return 404 if role not found', async () => {
             const res = await request(app)
                 .post('/users')
-                .send({ name: 'Yair', phone_number: '0501234567', role_id: 999 });
+                .send({
+                    name: 'Yair',
+                    phone_number: '0501234567',
+                    role_id: 999,
+                });
             expect(res.status).toBe(404);
         });
     });
 
     describe('PATCH /users/:id', () => {
         it('should update a user name', async () => {
-            const insert = await db.query("INSERT INTO users (name, phone_number, role_id) VALUES ('Yair', '0501234567', 1) RETURNING *");
+            const insert = await db.query(
+                "INSERT INTO users (name, phone_number, role_id) VALUES ('Yair', '0501234567', 1) RETURNING *"
+            );
             const id = insert.rows[0].id;
             const res = await request(app)
                 .patch(`/users/${id}`)
@@ -102,7 +115,9 @@ describe('Users API - Integration Tests', () => {
         });
 
         it('should update only phone_number', async () => {
-            const insert = await db.query("INSERT INTO users (name, phone_number, role_id) VALUES ('Yair', '0501234567', 1) RETURNING *");
+            const insert = await db.query(
+                "INSERT INTO users (name, phone_number, role_id) VALUES ('Yair', '0501234567', 1) RETURNING *"
+            );
             const id = insert.rows[0].id;
             const res = await request(app)
                 .patch(`/users/${id}`)
@@ -113,9 +128,7 @@ describe('Users API - Integration Tests', () => {
         });
 
         it('should return 400 if no fields provided', async () => {
-            const res = await request(app)
-                .patch('/users/1')
-                .send({});
+            const res = await request(app).patch('/users/1').send({});
             expect(res.status).toBe(400);
         });
 
@@ -143,7 +156,9 @@ describe('Users API - Integration Tests', () => {
 
     describe('DELETE /users/:id', () => {
         it('should delete a user successfully', async () => {
-            const insert = await db.query("INSERT INTO users (name, phone_number, role_id) VALUES ('Yair', '0501234567', 1) RETURNING *");
+            const insert = await db.query(
+                "INSERT INTO users (name, phone_number, role_id) VALUES ('Yair', '0501234567', 1) RETURNING *"
+            );
             const id = insert.rows[0].id;
             const res = await request(app).delete(`/users/${id}`);
             expect(res.status).toBe(204);
