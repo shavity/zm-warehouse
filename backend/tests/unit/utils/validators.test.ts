@@ -1,7 +1,8 @@
 import {
-    isNonEmptyString,
     isNatural,
+    isNonEmptyString,
     isNonNegativeInteger,
+    isValidDate,
     isValidIsraeliPhone,
 } from '../../../src/utils/validators';
 
@@ -123,6 +124,32 @@ describe('Validators - Unit Tests', () => {
 
         it('should return false for a non-israeli number', () => {
             expect(isValidIsraeliPhone('0012345678')).toBe(false);
+        });
+    });
+
+    describe('isValidDate', () => {
+        it('should return false for an empty string', () => {
+            expect(isValidDate('')).toBe(false);
+        });
+
+        it('should return false for month number greater than 12', () => {
+            expect(isValidDate('2026-13-01')).toBe(false);
+        });
+
+        it('should return false for month number 0', () => {
+            expect(isValidDate('2026-00-01')).toBe(false);
+        });
+
+        it('should return false for day number greater than 31', () => {
+            expect(isValidDate('2026-06-32')).toBe(false);
+        });
+
+        it('should return false for day number 0', () => {
+            expect(isValidDate('2026-06-00')).toBe(false);
+        });
+
+        it('should return true for valid date', () => {
+            expect(isValidDate('1990-10-31')).toBe(true);
         });
     });
 });

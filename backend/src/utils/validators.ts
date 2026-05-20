@@ -15,3 +15,9 @@ export const isNatural = (value: unknown): boolean => {
 export const isNonNegativeInteger = (value: unknown): boolean => {
     return Number.isInteger(value) && (value as number) >= 0;
 };
+
+export const isValidDate = (value: unknown): boolean => {
+    if (typeof value !== 'string') return false;
+    const date = new Date(value);
+    return !isNaN(date.getTime());
+};
