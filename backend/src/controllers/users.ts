@@ -12,6 +12,7 @@ import {
     isNatural,
     isValidIsraeliPhone,
 } from '@utils/validators';
+import { idParser } from '@utils/parsers';
 
 export const getUsers = async (req: Request, res: Response) => {
     try {
@@ -24,8 +25,8 @@ export const getUsers = async (req: Request, res: Response) => {
 
 export const getUser = async (req: Request, res: Response) => {
     try {
-        const id = parseInt(req.params.id as string);
-        if (isNaN(id)) {
+        const id = idParser(req.params.id as string);
+        if (id === null) {
             res.status(400).json({ error: 'id must be an integer' });
             return;
         }
@@ -96,8 +97,8 @@ export const addUser = async (req: Request, res: Response) => {
 
 export const editUser = async (req: Request, res: Response) => {
     try {
-        const id = parseInt(req.params.id as string);
-        if (isNaN(id)) {
+        const id = idParser(req.params.id as string);
+        if (id === null) {
             res.status(400).json({ error: 'id must be an integer' });
             return;
         }
@@ -165,8 +166,8 @@ export const editUser = async (req: Request, res: Response) => {
 
 export const removeUser = async (req: Request, res: Response) => {
     try {
-        const id = parseInt(req.params.id as string);
-        if (isNaN(id)) {
+        const id = idParser(req.params.id as string);
+        if (id === null) {
             res.status(400).json({ error: 'id must be an integer' });
             return;
         }

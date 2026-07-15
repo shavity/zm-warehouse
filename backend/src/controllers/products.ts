@@ -3,6 +3,7 @@ import { getAllProducts, getProductById, createProduct, updateProduct, deletePro
 import { getRoomById } from '@dal/rooms';
 import { getCategoryById } from '@dal/categories';
 import { isNonEmptyString, isNatural, isNonNegativeInteger } from '@utils/validators';
+import { idParser } from '@utils/parsers';
 
 export const getProducts = async (req: Request, res: Response) => {
     try {
@@ -15,8 +16,8 @@ export const getProducts = async (req: Request, res: Response) => {
 
 export const getProduct = async (req: Request, res: Response) => {
     try {
-        const id = parseInt(req.params.id as string);
-        if (isNaN(id)) {
+        const id = idParser(req.params.id as string);
+        if (id === null) {
             res.status(400).json({ error: 'id must be an integer' });
             return;
         }
@@ -106,8 +107,8 @@ export const addProduct = async (req: Request, res: Response) => {
 
 export const editProduct = async (req: Request, res: Response) => {
     try {
-        const id = parseInt(req.params.id as string);
-        if (isNaN(id)) {
+        const id = idParser(req.params.id as string);
+        if (id === null) {
             res.status(400).json({ error: 'id must be an integer' });
             return;
         }
@@ -202,8 +203,8 @@ export const editProduct = async (req: Request, res: Response) => {
 
 export const removeProduct = async (req: Request, res: Response) => {
     try {
-        const id = parseInt(req.params.id as string);
-        if (isNaN(id)) {
+        const id = idParser(req.params.id as string);
+        if (id === null) {
             res.status(400).json({ error: 'id must be an integer' });
             return;
         }

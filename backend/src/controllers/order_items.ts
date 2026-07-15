@@ -10,11 +10,12 @@ import { getOrderById } from '@dal/orders';
 import { getProductById } from '@dal/products';
 import { getUserById } from '@dal/users';
 import { isNatural, isNonNegativeInteger, isNonEmptyString } from '@utils/validators';
+import { idParser } from '@utils/parsers';
 
 export const getOrderItems = async (req: Request, res: Response) => {
     try {
-        const order_id = parseInt(req.params.order_id as string);
-        if (isNaN(order_id)) {
+        const order_id = idParser(req.params.order_id as string);
+        if (order_id === null) {
             res.status(400).json({ error: 'order_id must be an integer' });
             return;
         }
@@ -34,8 +35,8 @@ export const getOrderItems = async (req: Request, res: Response) => {
 
 export const addOrderItem = async (req: Request, res: Response) => {
     try {
-        const order_id = parseInt(req.params.order_id as string);
-        if (isNaN(order_id)) {
+        const order_id = idParser(req.params.order_id as string);
+        if (order_id === null) {
             res.status(400).json({ error: 'order_id must be an integer' });
             return;
         }
@@ -97,15 +98,15 @@ export const addOrderItem = async (req: Request, res: Response) => {
 
 export const editOrderItem = async (req: Request, res: Response) => {
     try {
-        const order_id = parseInt(req.params.order_id as string);
-        const product_id = parseInt(req.params.product_id as string);
+        const order_id = idParser(req.params.order_id as string);
+        const product_id = idParser(req.params.product_id as string);
 
-        if (isNaN(order_id)) {
+        if (order_id === null) {
             res.status(400).json({ error: 'order_id must be an integer' });
             return;
         }
 
-        if (isNaN(product_id)) {
+        if (product_id === null) {
             res.status(400).json({ error: 'product_id must be an integer' });
             return;
         }
@@ -201,15 +202,15 @@ export const editOrderItem = async (req: Request, res: Response) => {
 
 export const removeOrderItem = async (req: Request, res: Response) => {
     try {
-        const order_id = parseInt(req.params.order_id as string);
-        const product_id = parseInt(req.params.product_id as string);
+        const order_id = idParser(req.params.order_id as string);
+        const product_id = idParser(req.params.product_id as string);
 
-        if (isNaN(order_id)) {
+        if (order_id === null) {
             res.status(400).json({ error: 'order_id must be an integer' });
             return;
         }
 
-        if (isNaN(product_id)) {
+        if (product_id === null) {
             res.status(400).json({ error: 'product_id must be an integer' });
             return;
         }

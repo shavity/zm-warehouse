@@ -3,6 +3,7 @@ import { getAllOrders, getOrderById, createOrder, updateOrder, deleteOrder } fro
 import { getUserById } from '@dal/users';
 import { getOrderStatusById } from '@dal/order_statuses';
 import { isNonEmptyString, isNatural, isValidDate } from '@utils/validators';
+import { idParser } from '@utils/parsers';
 
 export const getOrders = async (req: Request, res: Response) => {
     try {
@@ -15,8 +16,8 @@ export const getOrders = async (req: Request, res: Response) => {
 
 export const getOrder = async (req: Request, res: Response) => {
     try {
-        const id = parseInt(req.params.id as string);
-        if (isNaN(id)) {
+        const id = idParser(req.params.id as string);
+        if (id === null) {
             res.status(400).json({ error: 'id must be an integer' });
             return;
         }
@@ -161,8 +162,8 @@ export const editOrder = async (req: Request, res: Response) => {
 
 export const removeOrder = async (req: Request, res: Response) => {
     try {
-        const id = parseInt(req.params.id as string);
-        if (isNaN(id)) {
+        const id = idParser(req.params.id as string);
+        if (id === null) {
             res.status(400).json({ error: 'id must be an integer' });
             return;
         }
