@@ -1,7 +1,8 @@
 import db from '@dal/database';
 import { buildSetClause } from '@utils/query_helpers';
+import { Product } from '@models/product';
 
-export const getAllProducts = async () => {
+export const getAllProducts = async (): Promise<Product[]> => {
     const result = await db.query(
         `SELECT 
             products.*,
@@ -15,7 +16,7 @@ export const getAllProducts = async () => {
     return result.rows;
 };
 
-export const getProductById = async (id: number) => {
+export const getProductById = async (id: number): Promise<Product | undefined> => {
     const result = await db.query(
         `SELECT 
             products.*,
@@ -38,7 +39,7 @@ export const createProduct = async (
     minimum_in_stock: number,
     is_expendable: boolean,
     picture_url?: string
-) => {
+): Promise<Product> => {
     const result = await db.query(
         `INSERT INTO products (name, room_id, category_id, in_stock, minimum_in_stock, is_expendable, picture_url)
         VALUES ($1, $2, $3, $4, $5, $6, $7)
@@ -59,7 +60,7 @@ export const updateProduct = async (
         is_expendable: boolean,
         picture_url: string
     }>
-) => {
+): Promise<Product | undefined> => {
     const setClause = buildSetClause(fields);
     const result = await db.query(
         `UPDATE products
@@ -71,7 +72,7 @@ export const updateProduct = async (
     return result.rows[0];
 };
 
-export const deleteProduct = async (id: number) => {
+export const deleteProduct = async (id: number): Promise<Product | undefined> => {
     const result = await db.query(
         `DELETE FROM products
         WHERE id = $1

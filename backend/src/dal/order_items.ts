@@ -1,7 +1,8 @@
 import db from '@dal/database';
 import { buildSetClause } from '@utils/query_helpers';
+import { OrderItem } from '@models/order_item';
 
-export const getOrderItemsByOrderId = async (order_id: number) => {
+export const getOrderItemsByOrderId = async (order_id: number): Promise<OrderItem[] | undefined> => {
     const result = await db.query(
         `SELECT
             order_items.*,
@@ -22,7 +23,7 @@ export const getOrderItemsByOrderId = async (order_id: number) => {
     return result.rows;
 };
 
-export const getOrderItemByIds = async (order_id: number, product_id: number) => {
+export const getOrderItemByIds = async (order_id: number, product_id: number): Promise<OrderItem | undefined> => {
     const result = await db.query(
         `SELECT
             order_items.*,
@@ -48,7 +49,7 @@ export const createOrderItem = async (
     product_id: number,
     amount: number,
     user_id?: number
-) => {
+): Promise<OrderItem> => {
     const result = await db.query(
         `INSERT INTO order_items (order_id, product_id, amount, user_id)
         VALUES ($1, $2, $3, $4)
@@ -69,7 +70,7 @@ export const updateOrderItem = async (
         user_id: number,
         returned_by: number
     }>
-) => {
+): Promise<OrderItem | undefined> => {
     const setClause = buildSetClause(fields);
     const result = await db.query(
         `UPDATE order_items
@@ -82,7 +83,7 @@ export const updateOrderItem = async (
     return result.rows[0];
 };
 
-export const deleteOrderItem = async (order_id: number, product_id: number) => {
+export const deleteOrderItem = async (order_id: number, product_id: number): Promise<OrderItem | undefined> => {
     const result = await db.query(
         `DELETE FROM order_items
         WHERE order_id = $1

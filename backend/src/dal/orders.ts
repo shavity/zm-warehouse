@@ -1,7 +1,8 @@
 import db from '@dal/database';
 import { buildSetClause } from '@utils/query_helpers';
+import { Order } from '@models/order';
 
-export const getAllOrders = async () => {
+export const getAllOrders = async (): Promise<Order[]> => {
     const result = await db.query(
         `SELECT
             orders.*,
@@ -15,7 +16,7 @@ export const getAllOrders = async () => {
     return result.rows;
 };
 
-export const getOrderById = async (id: number) => {
+export const getOrderById = async (id: number): Promise<Order | undefined> => {
     const result = await db.query(
         `SELECT
             orders.*,
@@ -36,7 +37,7 @@ export const createOrder = async (
     status_id: number,
     start_date: string,
     expire_date?: string
-) => {
+): Promise<Order> => {
     const result = await db.query(
         `INSERT INTO orders (name, created_by, status_id, start_date, expire_date)
         VALUES ($1, $2, $3, $4, $5)
@@ -54,7 +55,7 @@ export const updateOrder = async (
         start_date: string,
         expire_date: string
     }>
-) => {
+): Promise<Order | undefined> => {
     const setClause = buildSetClause(fields);
     const result = await db.query(
         `UPDATE orders
@@ -66,7 +67,7 @@ export const updateOrder = async (
     return result.rows[0];
 };
 
-export const deleteOrder = async (id: number) => {
+export const deleteOrder = async (id: number): Promise<Order> => {
     const result = await db.query(
         `DELETE FROM orders
         WHERE id = $1
