@@ -1,4 +1,4 @@
-import { getAllRoles } from '@dal/roles';
+import { getRoleById } from '@dal/roles';
 import {
     createUser,
     deleteUser,
@@ -6,7 +6,7 @@ import {
     getUserById,
     updateUser,
 } from '@dal/users';
-import { CreateUserInput } from '@models/user';
+import { CreateUserInput, UpdateUserInput } from '@models/user';
 import { idParser } from '@utils/parsers';
 import {
     isNatural,
@@ -15,7 +15,7 @@ import {
 } from '@utils/validators';
 import { Request, Response } from 'express';
 
-export const getUsers = async (req: Request, res: Response) => {
+export const getUsers = async (req: Request, res: Response): Promise<void> => {
     try {
         const users = await getAllUsers();
         res.json(users);
@@ -24,7 +24,7 @@ export const getUsers = async (req: Request, res: Response) => {
     }
 };
 
-export const getUser = async (req: Request, res: Response) => {
+export const getUser = async (req: Request, res: Response): Promise<void> => {
     try {
         const id = idParser(req.params.id as string);
         if (id === null) {
@@ -44,7 +44,7 @@ export const getUser = async (req: Request, res: Response) => {
     }
 };
 
-export const addUser = async (req: Request, res: Response) => {
+export const addUser = async (req: Request, res: Response): Promise<void> => {
     try {
         const { name, phone_number, role_id } = req.body;
 
@@ -74,29 +74,27 @@ export const addUser = async (req: Request, res: Response) => {
             return;
         }
 
-        const roles = await getAllRoles();
-        const roleExists = roles.some(
-            (role: { id: number }) => role.id === role_id
-        );
-        if (!roleExists) {
+        const role = await getRoleById(role_id);
+        if (!role) {
             res.status(404).json({
                 error: `Role with id ${role_id} not found`,
             });
             return;
         }
-        const userInput: CreateUserInput = {
+
+        const input: CreateUserInput = {
             name: name.trim(),
             phone_number: phone_number.trim(),
-            role_id: role_id
+            role_id,
         };
-        const user = await createUser(userInput);
+        const user = await createUser(input);
         res.status(201).json(user);
     } catch (error) {
         res.status(500).json({ error: 'Failed to create user' });
     }
 };
 
-export const editUser = async (req: Request, res: Response) => {
+export const editUser = async (req: Request, res: Response): Promise<void> => {
     try {
         const id = idParser(req.params.id as string);
         if (id === null) {
@@ -131,11 +129,8 @@ export const editUser = async (req: Request, res: Response) => {
         }
 
         if (role_id !== undefined) {
-            const roles = await getAllRoles();
-            const roleExists = roles.some(
-                (role: { id: number }) => role.id === role_id
-            );
-            if (!roleExists) {
+            const role = await getRoleById(role_id);
+            if (!role) {
                 res.status(404).json({
                     error: `Role with id ${role_id} not found`,
                 });
@@ -143,14 +138,9 @@ export const editUser = async (req: Request, res: Response) => {
             }
         }
 
-        const fields: Partial<{
-            name: string;
-            phone_number: string;
-            role_id: number;
-        }> = {};
+        const fields: UpdateUserInput = {};
         if (name !== undefined) fields.name = name.trim();
-        if (phone_number !== undefined)
-            fields.phone_number = phone_number.trim();
+        if (phone_number !== undefined) fields.phone_number = phone_number.trim();
         if (role_id !== undefined) fields.role_id = role_id;
 
         const user = await updateUser(id, fields);
@@ -165,7 +155,7 @@ export const editUser = async (req: Request, res: Response) => {
     }
 };
 
-export const removeUser = async (req: Request, res: Response) => {
+export const removeUser = async (req: Request, res: Response): Promise<void> => {
     try {
         const id = idParser(req.params.id as string);
         if (id === null) {

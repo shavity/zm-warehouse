@@ -89,9 +89,7 @@ describe('Users Controller - Unit Tests', () => {
 
     describe('addUser', () => {
         it('should return 201 if user created successfully', async () => {
-            (rolesDal.getAllRoles as jest.Mock).mockResolvedValue([
-                { id: 1, name: 'admin' },
-            ]);
+            (rolesDal.getRoleById as jest.Mock).mockResolvedValue({ id: 1, name: 'admin' });
             (usersDal.createUser as jest.Mock).mockResolvedValue(fakeUser);
             const req = mockRequest({
                 name: 'Yair',
@@ -162,7 +160,7 @@ describe('Users Controller - Unit Tests', () => {
         });
 
         it('should return 404 if role not found', async () => {
-            (rolesDal.getAllRoles as jest.Mock).mockResolvedValue([]);
+            (rolesDal.getRoleById as jest.Mock).mockResolvedValue(undefined);
             const req = mockRequest({
                 name: 'Yair',
                 phone_number: '0501234567',
@@ -174,10 +172,7 @@ describe('Users Controller - Unit Tests', () => {
         });
 
         it('should return 500 if database fails', async () => {
-            (rolesDal.getAllRoles as jest.Mock).mockResolvedValue({
-                id: 1,
-                name: 'admin',
-            });
+            (rolesDal.getRoleById as jest.Mock).mockResolvedValue({ id: 1, name: 'admin' });
             (usersDal.createUser as jest.Mock).mockRejectedValue(
                 new Error('DB error')
             );
@@ -194,7 +189,7 @@ describe('Users Controller - Unit Tests', () => {
 
     describe('editUser', () => {
         it('should return updated user', async () => {
-            (rolesDal.getAllRoles as jest.Mock).mockResolvedValue({
+            (rolesDal.getRoleById as jest.Mock).mockResolvedValue({
                 id: 1,
                 name: 'admin',
             });
@@ -240,9 +235,7 @@ describe('Users Controller - Unit Tests', () => {
         });
 
         it('should return 404 if role not found', async () => {
-            (rolesDal.getAllRoles as jest.Mock).mockResolvedValue([
-                { id: 1, name: 'admin' },
-            ]);
+            (rolesDal.getRoleById as jest.Mock).mockResolvedValue(undefined);
             const req = mockRequest({ role_id: 999 }, { id: '1' });
             const res = mockResponse();
             await editUser(req, res);

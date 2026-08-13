@@ -9,7 +9,6 @@ export const getAllUsers = async (): Promise<User[]> => {
             roles.name as role_name
         FROM users
         JOIN roles ON users.role_id = roles.id
-        WHERE users.deleted_at IS NULL
         ORDER BY users.id`
     );
     return result.rows;
@@ -22,8 +21,7 @@ export const getUserById = async (id: number): Promise<User | undefined> => {
             roles.name as role_name
         FROM users
         JOIN roles ON users.role_id = roles.id
-        WHERE users.id = $1
-        AND users.deleted_at IS NULL`,
+        WHERE users.id = $1`,
         [id]
     );
     return result.rows[0];
@@ -45,7 +43,6 @@ export const updateUser = async (id: number, fields: UpdateUserInput): Promise<U
         `UPDATE users
         SET ${setClause.setClause}
         WHERE users.id = $${setClause.values.length + 1}
-        AND deleted_at IS NULL
         RETURNING *`,
         [...setClause.values, id]
     );
@@ -54,8 +51,8 @@ export const updateUser = async (id: number, fields: UpdateUserInput): Promise<U
 
 export const deleteUser = async (id: number): Promise<User | undefined> => {
     const result = await db.query(
-        `DELETE FROM users 
-        WHERE id = $1 
+        `DELETE FROM users
+        WHERE id = $1
         RETURNING *`,
         [id]
     );
