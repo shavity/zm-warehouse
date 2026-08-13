@@ -1,6 +1,6 @@
 import request from 'supertest';
-import app from '../../src/index';
 import db from '../../src/dal/database';
+import app from '../../src/index';
 
 describe('Categories API - Integration Tests', () => {
     beforeEach(async () => {

@@ -1,5 +1,5 @@
-import { Request, Response } from 'express';
 import { getAllOrderStatuses } from '@dal/order_statuses';
+import { Request, Response } from 'express';
 
 export const getOrderStatuses = async (req: Request, res: Response) => {
     try {

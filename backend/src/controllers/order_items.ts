@@ -1,16 +1,16 @@
-import { Request, Response } from 'express';
 import {
-    getOrderItemsByOrderId,
-    getOrderItemByIds,
     createOrderItem,
-    updateOrderItem,
-    deleteOrderItem
+    deleteOrderItem,
+    getOrderItemByIds,
+    getOrderItemsByOrderId,
+    updateOrderItem
 } from '@dal/order_items';
 import { getOrderById } from '@dal/orders';
 import { getProductById } from '@dal/products';
 import { getUserById } from '@dal/users';
-import { isNatural, isNonNegativeInteger, isNonEmptyString } from '@utils/validators';
 import { idParser } from '@utils/parsers';
+import { isNatural, isNonEmptyString, isNonNegativeInteger } from '@utils/validators';
+import { Request, Response } from 'express';
 
 export const getOrderItems = async (req: Request, res: Response) => {
     try {

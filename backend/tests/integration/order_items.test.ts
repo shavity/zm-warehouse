@@ -1,6 +1,6 @@
 import request from 'supertest';
-import app from '../../src/index';
 import db from '../../src/dal/database';
+import app from '../../src/index';
 
 describe('Order Items API - Integration Tests', () => {
 

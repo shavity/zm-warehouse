@@ -1,17 +1,17 @@
-import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import express from 'express';
 import path from 'path';
 
 import '@dal/database';
-import roomsRouter from '@routes/rooms';
 import categoriesRouter from '@routes/categories';
-import rolesRouter from '@routes/roles';
-import orderStatusesRouter from '@routes/order_statuses';
-import usersRouter from '@routes/users';
-import productRouter from '@routes/products';
-import ordersRouter from '@routes/orders';
 import orderItemsRouter from '@routes/order_items';
+import orderStatusesRouter from '@routes/order_statuses';
+import ordersRouter from '@routes/orders';
+import productRouter from '@routes/products';
+import rolesRouter from '@routes/roles';
+import roomsRouter from '@routes/rooms';
+import usersRouter from '@routes/users';
 
 dotenv.config();
 

@@ -1,6 +1,6 @@
 import db from '@dal/database';
-import { buildSetClause } from '@utils/query_helpers';
 import { Order } from '@models/order';
+import { buildSetClause } from '@utils/query_helpers';
 
 export const getAllOrders = async (): Promise<Order[]> => {
     const result = await db.query(

@@ -127,7 +127,7 @@ describe('Orders API - Integration Tests', () => {
         it('should return 400 if name is missing', async () => {
             const res = await request(app)
                 .post('/orders')
-                .send({ 
+                .send({
                     created_by: userId,
                     start_date: '2026-06-01',
                     status_id: statusId

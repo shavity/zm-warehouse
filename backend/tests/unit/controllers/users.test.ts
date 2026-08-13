@@ -1,13 +1,13 @@
 import { Request, Response } from 'express';
 import {
-    getUser,
-    getUsers,
     addUser,
     editUser,
+    getUser,
+    getUsers,
     removeUser,
 } from '../../../src/controllers/users';
-import * as usersDal from '../../../src/dal/users';
 import * as rolesDal from '../../../src/dal/roles';
+import * as usersDal from '../../../src/dal/users';
 
 jest.mock('../../../src/dal/users');
 jest.mock('../../../src/dal/roles');

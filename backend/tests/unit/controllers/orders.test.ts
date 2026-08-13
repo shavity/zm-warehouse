@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
-import { getOrders, getOrder, addOrder, editOrder, removeOrder } from '../../../src/controllers/orders';
+import { addOrder, editOrder, getOrder, getOrders, removeOrder } from '../../../src/controllers/orders';
+import * as orderStatusesDal from '../../../src/dal/order_statuses';
 import * as ordersDal from '../../../src/dal/orders';
 import * as usersDal from '../../../src/dal/users';
-import * as orderStatusesDal from '../../../src/dal/order_statuses';
 
 jest.mock('../../../src/dal/orders');
 jest.mock('../../../src/dal/users');

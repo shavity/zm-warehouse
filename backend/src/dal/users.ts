@@ -1,6 +1,6 @@
 import db from '@dal/database';
+import { CreateUserInput, UpdateUserInput, User } from '@models/user';
 import { buildSetClause } from '@utils/query_helpers';
-import { User, CreateUserInput, UpdateUserInput } from '@models/user';
 
 export const getAllUsers = async (): Promise<User[]> => {
     const result = await db.query(

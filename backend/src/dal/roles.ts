@@ -9,7 +9,7 @@ export const getAllRoles = async (): Promise<Role[]> => {
 export const getRoleById = async (id: number): Promise<Role | undefined> => {
     const result = await db.query(
         'SELECT * FROM roles WHERE id = $1',
-        [id]  
+        [id]
     );
     return result.rows[0];
 };

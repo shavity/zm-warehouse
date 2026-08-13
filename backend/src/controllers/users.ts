@@ -1,19 +1,19 @@
-import { Request, Response } from 'express';
+import { getAllRoles } from '@dal/roles';
 import {
+    createUser,
+    deleteUser,
     getAllUsers,
     getUserById,
-    createUser,
     updateUser,
-    deleteUser,
 } from '@dal/users';
-import { getAllRoles } from '@dal/roles';
-import { CreateUserInput, UpdateUserInput } from '@models/user';
+import { CreateUserInput } from '@models/user';
+import { idParser } from '@utils/parsers';
 import {
-    isNonEmptyString,
     isNatural,
+    isNonEmptyString,
     isValidIsraeliPhone,
 } from '@utils/validators';
-import { idParser } from '@utils/parsers';
+import { Request, Response } from 'express';
 
 export const getUsers = async (req: Request, res: Response) => {
     try {

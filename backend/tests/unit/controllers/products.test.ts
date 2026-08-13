@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
-import { getProducts, getProduct, addProduct, editProduct, removeProduct } from '../../../src/controllers/products';
+import { addProduct, editProduct, getProduct, getProducts, removeProduct } from '../../../src/controllers/products';
+import * as categoriesDal from '../../../src/dal/categories';
 import * as productsDal from '../../../src/dal/products';
 import * as roomsDal from '../../../src/dal/rooms';
-import * as categoriesDal from '../../../src/dal/categories';
 
 jest.mock('../../../src/dal/products');
 jest.mock('../../../src/dal/rooms');

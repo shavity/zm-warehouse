@@ -1,5 +1,5 @@
-import { Request, Response } from 'express';
 import { getAllRoles } from '@dal/roles';
+import { Request, Response } from 'express';
 
 export const getRoles = async (req: Request, res: Response) => {
     try {

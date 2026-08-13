@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { getOrderItems, addOrderItem, editOrderItem, removeOrderItem } from '../../../src/controllers/order_items';
+import { addOrderItem, editOrderItem, getOrderItems, removeOrderItem } from '../../../src/controllers/order_items';
 import * as orderItemsDal from '../../../src/dal/order_items';
 import * as ordersDal from '../../../src/dal/orders';
 import * as productsDal from '../../../src/dal/products';

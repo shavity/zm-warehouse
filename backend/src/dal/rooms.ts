@@ -1,5 +1,5 @@
-import db from './database';
 import { Room, UpsertRoomResult } from '@models/room';
+import db from './database';
 
 export const getAllRooms = async (): Promise<Room[]> => {
     const result = await db.query('SELECT * FROM rooms ORDER BY id');

@@ -1,7 +1,7 @@
 import { idParser } from "../../../src/utils/parsers";
 
 describe('Parsers - Unit Tests', () => {
-    describe('idParser', () =>{
+    describe('idParser', () => {
         it('Should return null for non-digit string', () => {
             expect(idParser('hello')).toBe(null);
         });
