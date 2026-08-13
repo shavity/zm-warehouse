@@ -1,6 +1,6 @@
 import db from '@dal/database';
+import { CreateProductInput, Product, UpdateProductInput } from '@models/product';
 import { buildSetClause } from '@utils/query_helpers';
-import { Product } from '@models/product';
 
 export const getAllProducts = async (): Promise<Product[]> => {
     const result = await db.query(
@@ -31,36 +31,17 @@ export const getProductById = async (id: number): Promise<Product | undefined> =
     return result.rows[0];
 };
 
-export const createProduct = async (
-    name: string,
-    room_id: number,
-    category_id: number,
-    in_stock: number,
-    minimum_in_stock: number,
-    is_expendable: boolean,
-    picture_url?: string
-): Promise<Product> => {
+export const createProduct = async (input: CreateProductInput): Promise<Product> => {
     const result = await db.query(
         `INSERT INTO products (name, room_id, category_id, in_stock, minimum_in_stock, is_expendable, picture_url)
         VALUES ($1, $2, $3, $4, $5, $6, $7)
         RETURNING *`,
-        [name, room_id, category_id, in_stock, minimum_in_stock, is_expendable, picture_url ?? null]
+        [input.name, input.room_id, input.category_id, input.in_stock, input.minimum_in_stock, input.is_expendable, input.picture_url ?? null]
     );
     return result.rows[0];
 };
 
-export const updateProduct = async (
-    id: number,
-    fields: Partial<{
-        name: string,
-        room_id: number,
-        category_id: number,
-        in_stock: number,
-        minimum_in_stock: number,
-        is_expendable: boolean,
-        picture_url: string
-    }>
-): Promise<Product | undefined> => {
+export const updateProduct = async (id: number, fields: UpdateProductInput): Promise<Product | undefined> => {
     const setClause = buildSetClause(fields);
     const result = await db.query(
         `UPDATE products
