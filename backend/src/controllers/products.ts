@@ -1,9 +1,10 @@
-import { Request, Response } from 'express';
-import { getAllProducts, getProductById, createProduct, updateProduct, deleteProduct } from '@dal/products';
-import { getRoomById } from '@dal/rooms';
 import { getCategoryById } from '@dal/categories';
-import { isNonEmptyString, isNatural, isNonNegativeInteger } from '@utils/validators';
+import { createProduct, deleteProduct, getAllProducts, getProductById, updateProduct } from '@dal/products';
+import { getRoomById } from '@dal/rooms';
+import { CreateProductInput, UpdateProductInput } from '@models/product';
 import { idParser } from '@utils/parsers';
+import { isNatural, isNonEmptyString, isNonNegativeInteger } from '@utils/validators';
+import { Request, Response } from 'express';
 
 export const getProducts = async (req: Request, res: Response) => {
     try {
@@ -90,15 +91,16 @@ export const addProduct = async (req: Request, res: Response) => {
             return;
         }
 
-        const product = await createProduct(
-            name.trim(),
-            room_id,
-            category_id,
-            in_stock,
-            minimum_in_stock,
-            is_expendable,
-            picture_url?.trim()
-        );
+        const productInput: CreateProductInput = {
+            name: name.trim(),
+            room_id: room_id,
+            category_id: category_id,
+            in_stock: in_stock,
+            minimum_in_stock: minimum_in_stock,
+            is_expendable: is_expendable,
+            picture_url: picture_url?.trim()
+        };
+        const product = await createProduct(productInput);
         res.status(201).json(product);
     } catch (error) {
         res.status(500).json({ error: 'Failed to create product' });
@@ -171,16 +173,7 @@ export const editProduct = async (req: Request, res: Response) => {
             }
         }
 
-        const fields: Partial<{
-            name: string,
-            room_id: number,
-            category_id: number,
-            in_stock: number,
-            minimum_in_stock: number,
-            is_expendable: boolean,
-            picture_url: string
-        }> = {};
-
+        const fields: UpdateProductInput = {};
         if (name !== undefined) fields.name = name.trim();
         if (room_id !== undefined) fields.room_id = room_id;
         if (category_id !== undefined) fields.category_id = category_id;

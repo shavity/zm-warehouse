@@ -1,5 +1,5 @@
 import db from './database';
-import { Room } from '@models/room';
+import { Room, UpsertRoomResult } from '@models/room';
 
 export const getAllRooms = async (): Promise<Room[]> => {
     const result = await db.query('SELECT * FROM rooms ORDER BY id');
@@ -22,7 +22,7 @@ export const createRoom = async (id: number, name: string): Promise<Room> => {
     return result.rows[0];
 };
 
-export const upsertRoom = async (id: number, name: string): Promise<Room | undefined> => {
+export const upsertRoom = async (id: number, name: string): Promise<UpsertRoomResult> => {
     const result = await db.query(`
         INSERT INTO rooms (id, name) VALUES ($1, $2)
         ON CONFLICT (id) DO UPDATE SET id = EXCLUDED.id

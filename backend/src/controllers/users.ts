@@ -7,6 +7,7 @@ import {
     deleteUser,
 } from '@dal/users';
 import { getAllRoles } from '@dal/roles';
+import { CreateUserInput, UpdateUserInput } from '@models/user';
 import {
     isNonEmptyString,
     isNatural,
@@ -83,12 +84,12 @@ export const addUser = async (req: Request, res: Response) => {
             });
             return;
         }
-
-        const user = await createUser(
-            name.trim(),
-            phone_number.trim(),
-            role_id
-        );
+        const userInput: CreateUserInput = {
+            name: name.trim(),
+            phone_number: phone_number.trim(),
+            role_id: role_id
+        };
+        const user = await createUser(userInput);
         res.status(201).json(user);
     } catch (error) {
         res.status(500).json({ error: 'Failed to create user' });

@@ -1,5 +1,5 @@
 import db from '@dal/database';
-import { Category } from '@models/category';
+import { Category, UpsertCategoryResult } from '@models/category';
 
 export const getAllCategories = async (): Promise<Category[]> => {
     const result = await db.query('SELECT * FROM categories ORDER BY id');
@@ -30,7 +30,7 @@ export const createCategory = async (name: string): Promise<Category> => {
     return result.rows[0];
 };
 
-export const upsertCategory = async (name: string): Promise<Category | undefined> => {
+export const upsertCategory = async (name: string): Promise<UpsertCategoryResult> => {
     const result = await db.query(
         `INSERT INTO categories (name) VALUES ($1)
      ON CONFLICT (name) DO UPDATE SET name = EXCLUDED.name
